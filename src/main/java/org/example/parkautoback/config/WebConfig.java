@@ -1,4 +1,4 @@
-package org.example.parkautoback;
+package org.example.parkautoback.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

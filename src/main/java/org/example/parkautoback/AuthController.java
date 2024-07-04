@@ -1,5 +1,7 @@
 package org.example.parkautoback;
 
+import org.example.parkautoback.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,12 +12,12 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AuthController {
 
+    @Autowired
+    private User user;
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        // Replace with your authentication logic
+    public String login(@RequestBody LoginRequest loginRequest) {
         System.out.println("Login request received");
-        System.out.println("Usernames: " + loginRequest.getUsername());
-        System.out.println("Password: " + loginRequest.getPassword());
-        return ResponseEntity.ok(Map.of("message", "Login successful"));
+        return user.authenticate(loginRequest) ? "Login successful" : "Login failed";
     }
 }
