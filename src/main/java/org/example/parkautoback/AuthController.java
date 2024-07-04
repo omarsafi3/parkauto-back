@@ -14,7 +14,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         // Replace with your authentication logic
         System.out.println("Login request received");
-        System.out.println("Usernames: " + loginRequest.getUsername());
+        System.out.println("Username: " + loginRequest.getUsername());
         System.out.println("Password: " + loginRequest.getPassword());
         return ResponseEntity.ok(Map.of("message", "Login successful"));
     }
