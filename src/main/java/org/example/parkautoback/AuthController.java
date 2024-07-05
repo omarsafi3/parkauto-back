@@ -4,6 +4,7 @@ import org.example.parkautoback.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.example.parkautoback.DTO.LoginRequestDTO;
 
 
 import java.util.Map;
@@ -16,8 +17,12 @@ public class AuthController {
     private User user;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest) {
-        System.out.println("Login request received");
-        return user.authenticate(loginRequest) ? "Login successful" : "Login failed";
+    public String login(@RequestBody LoginRequestDTO loginRequest) {
+        User tempUser = new User(loginRequest.getUsername(), loginRequest.getPassword());
+        if (user.authenticate(tempUser)) {
+            return "Login successful";
+        } else {
+            return "Login failed";
+        }
     }
 }
