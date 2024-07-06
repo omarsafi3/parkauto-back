@@ -68,26 +68,37 @@ mvn spring-boot:run
 ```
 
 Authentication
+
 POST /api/auth/login: Authenticate a user.
+
 Vehicles:
 
 GET /api/vehicles: Get a list of all vehicles.
+
 POST /api/vehicles: Add a new vehicle.
+
 PUT /api/vehicles/{id}: Update a vehicle.
+
 DELETE /api/vehicles/{id}: Delete a vehicle.
 
 Users:
 
 GET /api/users: Get a list of all users.
+
 POST /api/users: Add a new user.
+
 PUT /api/users/{id}: Update a user.
+
 DELETE /api/users/{id}: Delete a user.
 
 Maintenance:
 
 GET /api/maintenance: Get a list of all maintenance records.
+
 POST /api/maintenance: Add a new maintenance record.
+
 PUT /api/maintenance/{id}: Update a maintenance record.
+
 DELETE /api/maintenance/{id}: Delete a maintenance record.
 
 Fuel:
