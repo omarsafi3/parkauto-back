@@ -38,8 +38,8 @@ Welcome to the Car Park Management Application backend. This application is desi
 ### Installation
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/car-park-management-backend.git
-    cd car-park-management-backend
+    git clone https://github.com/omarsafi3/parkauto-back.git
+    cd /parkauto-back
     ```
 
 2. Configure the database connection:
@@ -104,6 +104,9 @@ DELETE /api/maintenance/{id}: Delete a maintenance record.
 Fuel:
 
 GET /api/fuel: Get a list of all fuel records.
+
 POST /api/fuel: Add a new fuel record.
+
 PUT /api/fuel/{id}: Update a fuel record.
+
 DELETE /api/fuel/{id}: Delete a fuel record.
