@@ -1,4 +1,4 @@
-package org.example.parkautoback;
+package org.example.parkautoback.controller;
 
 import org.example.parkautoback.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
