@@ -17,12 +17,12 @@ public class AuthController {
     private User user;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDTO loginRequest) {
+    public boolean login(@RequestBody LoginRequestDTO loginRequest) {
         User tempUser = new User(loginRequest.getUsername(), loginRequest.getPassword());
         if (user.authenticate(tempUser)) {
-            return "Login successful";
+            return true;
         } else {
-            return "Login failed";
+            return false;
         }
     }
 }
