@@ -36,19 +36,23 @@ public class DatabaseService {
             return null;
         }
     }
-    public boolean authenticate(String username, String password) {
+    public String authenticate(String username, String password) {
         try (Connection connection = getConnection()) {
             String query = "SELECT * FROM utilisateurs WHERE username = ? AND password = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    return resultSet.next();
+                    if (resultSet.next()){
+                    return resultSet.getString("role");}
+                    else{
+                        return null;
+                    }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 }

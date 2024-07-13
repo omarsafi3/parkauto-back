@@ -20,7 +20,7 @@ public class User {
         this.password = password;
     }
 
-    public boolean authenticate(User user) {
+    public String authenticate(User user) {
         return databaseService.authenticate(user.getUsername(), user.getPassword());
     }
 
