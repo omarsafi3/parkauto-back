@@ -1,101 +1,66 @@
-package org.example.parkautoback.service;
+package org.example.parkautoback.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.sql.DataSource;
+import java.util.List;
 import org.example.parkautoback.entity.Assurance;
+import org.example.parkautoback.service.AssuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Service
-public class AssuranceService {
+@RestController
+@RequestMapping("/api/assurances")
+public class AssuranceController {
     @Autowired
-    private DataSource dataSource;
+    private AssuranceService assuranceService;
 
-    public AssuranceService() {
+    public AssuranceController() {
     }
 
-    public Connection getConnection() throws SQLException {
-        return this.dataSource.getConnection();
+    @GetMapping
+    public ResponseEntity<List<Assurance>> getAllAssurances() {
+        List<Assurance> assurances = assuranceService.getAllAssurances();
+        return ResponseEntity.ok(assurances);
     }
 
-    public Assurance getAssurance(String assuranceId) {
-        String query = "SELECT * FROM assurance WHERE assurance_id = ?";
-        try (
-                Connection connection = getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setString(1, assuranceId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Assurance(resultSet.getString("assurance_id"), resultSet.getString("description"));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    @GetMapping("/{id}")
+    public ResponseEntity<Assurance> getAssurance(@PathVariable String id) {
+        Assurance assurance = assuranceService.getAssurance(id);
+        return assurance != null ? ResponseEntity.ok(assurance) : ResponseEntity.notFound().build();
     }
 
-    public ArrayList<Assurance> getAllAssurances() {
-        String query = "SELECT * FROM assurance";
-        ArrayList<Assurance> assurances = new ArrayList<>();
-        try (
-                Connection connection = getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                ResultSet resultSet = preparedStatement.executeQuery();
-        ) {
-            while (resultSet.next()) {
-                Assurance assurance = new Assurance(resultSet.getString("assurance_id"), resultSet.getString("description"));
-                assurances.add(assurance);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return assurances;
+    @PostMapping
+    public ResponseEntity<Assurance> addAssurance(@RequestBody Assurance assurance) {
+        assuranceService.addAssurance(assurance);
+        return ResponseEntity.ok(assurance);
     }
 
-    public void addAssurance(Assurance assurance) {
-        String query = "INSERT INTO assurance (assurance_id, description) VALUES (?, ?)";
-        try (
-                Connection connection = getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setString(1, assurance.getId());
-            preparedStatement.setString(2, assurance.getDescription());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    @PutMapping("/{id}")
+    public ResponseEntity<Assurance> updateAssurance(@PathVariable String id, @RequestBody Assurance assurance) {
+        Assurance existingAssurance = assuranceService.getAssurance(id);
+        if (existingAssurance != null) {
+            existingAssurance.setlib(assurance.getLib());
+            assuranceService.updateAssurance(existingAssurance);
+            return ResponseEntity.ok(existingAssurance);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
-    public void updateAssurance(Assurance assurance) {
-        String query = "UPDATE assurance SET description = ? WHERE assurance_id = ?";
-        try (
-                Connection connection = getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setString(1, assurance.getDescription());
-            preparedStatement.setString(2, assurance.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void deleteAssurance(String assuranceId) {
-        String query = "DELETE FROM assurance WHERE assurance_id = ?";
-        try (
-                Connection connection = getConnection();
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-        ) {
-            preparedStatement.setString(1, assuranceId);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAssurance(@PathVariable String id) {
+        Assurance existingAssurance = assuranceService.getAssurance(id);
+        if (existingAssurance != null) {
+            assuranceService.deleteAssurance(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }
