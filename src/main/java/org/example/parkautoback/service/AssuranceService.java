@@ -24,12 +24,12 @@ public class AssuranceService {
 
     public Assurance getAssurance(String assuranceId) {
         try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM assurance WHERE assurance_id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM assurance WHERE ida = ?")) {
 
             preparedStatement.setString(1, assuranceId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new Assurance(resultSet.getString("assurance_id"), resultSet.getString("lib"));
+                    return new Assurance(resultSet.getString("ida"), resultSet.getString("libelle"));
                 } else {
                     return null;
                 }
@@ -47,7 +47,7 @@ public class AssuranceService {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                assurances.add(new Assurance(resultSet.getString("assurance_id"), resultSet.getString("lib")));
+                assurances.add(new Assurance(resultSet.getString("ida"), resultSet.getString("libelle")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +57,7 @@ public class AssuranceService {
 
     public void addAssurance(Assurance assurance) {
         try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO assurance (assurance_id, lib) VALUES (?, ?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO assurance (ida, libelle) VALUES (?, ?)")) {
 
             preparedStatement.setString(1, assurance.getId());
             preparedStatement.setString(2, assurance.getLib());
@@ -69,7 +69,7 @@ public class AssuranceService {
 
     public void updateAssurance(Assurance assurance) {
         try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE assurance SET lib = ? WHERE assurance_id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE assurance SET LIBELLE = ? WHERE ida = ?")) {
 
             preparedStatement.setString(1, assurance.getLib());
             preparedStatement.setString(2, assurance.getId());
@@ -81,7 +81,7 @@ public class AssuranceService {
 
     public void deleteAssurance(String assuranceId) {
         try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM assurance WHERE assurance_id = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM assurance WHERE ida = ?")) {
 
             preparedStatement.setString(1, assuranceId);
             preparedStatement.executeUpdate();

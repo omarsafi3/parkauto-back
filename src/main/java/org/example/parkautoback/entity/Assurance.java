@@ -4,23 +4,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Assurance {
-    private String Id;
+    private String id;
     private String lib;
 
     public Assurance() {
     }
 
-    public Assurance(String assuranceId, String description) {
-        this.Id = Id;
-        this.lib = description;
+    public Assurance(String id, String lib) {
+        this.id = id;
+        this.lib = lib;
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
-    public void setId(String Id) {
-        this.Id = Id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLib() {
