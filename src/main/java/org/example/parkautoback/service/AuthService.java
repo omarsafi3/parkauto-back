@@ -1,5 +1,6 @@
 package org.example.parkautoback.service;
 
+import org.example.parkautoback.entity.Carte;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,13 +9,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Service
-public class DatabaseService {
+public class AuthService {
 
     @Autowired
     private DataSource dataSource;
-
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
@@ -44,7 +45,7 @@ public class DatabaseService {
                 preparedStatement.setString(2, password);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()){
-                    return resultSet.getString("role");}
+                        return resultSet.getString("role");}
                     else{
                         return null;
                     }
@@ -55,4 +56,6 @@ public class DatabaseService {
             return null;
         }
     }
+
+
 }

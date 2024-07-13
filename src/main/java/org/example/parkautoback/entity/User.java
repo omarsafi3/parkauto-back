@@ -1,6 +1,6 @@
 package org.example.parkautoback.entity;
 
-import org.example.parkautoback.service.DatabaseService;
+import org.example.parkautoback.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ public class User {
     private String password;
 
     @Autowired
-    private DatabaseService databaseService;
+    private AuthService authService;
 
     public User() {
     }
@@ -21,11 +21,11 @@ public class User {
     }
 
     public String authenticate(User user) {
-        return databaseService.authenticate(user.getUsername(), user.getPassword());
+        return authService.authenticate(user.getUsername(), user.getPassword());
     }
 
     public String printAllUsers() {
-        return databaseService.printAllUsers();
+        return authService.printAllUsers();
     }
     public String getUsername() {
         return username;

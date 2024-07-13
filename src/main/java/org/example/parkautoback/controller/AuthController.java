@@ -19,10 +19,7 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestBody LoginRequestDTO loginRequest) {
         User tempUser = new User(loginRequest.getUsername(), loginRequest.getPassword());
-        if (user.authenticate(tempUser) != null) {
-            return user.authenticate(tempUser);
-        } else {
-            return user.authenticate(tempUser);
-        }
+        return user.authenticate(tempUser);
+
     }
 }
