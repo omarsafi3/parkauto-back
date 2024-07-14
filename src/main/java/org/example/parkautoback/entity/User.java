@@ -30,9 +30,6 @@ public class User {
         return authService.authenticate(user.getUsername(), user.getPassword());
     }
 
-    public String printAllUsers() {
-        return authService.printAllUsers();
-    }
     public String getUsername() {
         return username;
     }
