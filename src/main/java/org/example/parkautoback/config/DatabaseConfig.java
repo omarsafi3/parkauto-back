@@ -1,28 +1,21 @@
 package org.example.parkautoback.config;
 
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
-import java.sql.*;
 
 @Configuration
 public class DatabaseConfig {
 
     @Bean
-    public static Connection connection() throws SQLException {
-        try {
-            Class.forName("oracle.jdbc.OracleDriver");
-        } catch (ClassNotFoundException e) {
-           System.out.println("Connection failed");
-
-        }
-
-        String url = "jdbc:oracle:thin:@localhost:1521:xe";
-        String username = "parkauto";
-        String password = "0000";
-
-        return DriverManager.getConnection(url, username, password);
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
+        dataSource.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+        dataSource.setUsername("parkauto");
+        dataSource.setPassword("0000");
+        return dataSource;
     }
 }
