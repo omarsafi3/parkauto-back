@@ -1,95 +1,43 @@
 package org.example.parkautoback.service;
 
 import org.example.parkautoback.entity.Carte;
+import org.example.parkautoback.repository.CarteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-import java.sql.*;
 import java.util.ArrayList;
-
+import java.util.Optional;
 
 @Service
-
 public class CartesService {
+    private final CarteRepository carteRepository;
+
     @Autowired
-    private DataSource dataSource;
-    public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
-    }
-    public Carte getCarte(String carteId) {
-        try (Connection connection = getConnection()) {
-            String query = "SELECT * FROM carte WHERE num_carte = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, carteId);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        return new Carte(resultSet.getString("num_carte"), resultSet.getString("nbr_litres"));
-                    } else {
-                        return null;
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public CartesService(final CarteRepository carteRepository) {
+        this.carteRepository = carteRepository;
     }
 
     public ArrayList<Carte> getAllCartes() {
-        try (Connection connection = getConnection()) {
-            String query = "SELECT * FROM CARTE";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    ArrayList<Carte> cartes = new ArrayList<>();
-                    while (resultSet.next()) {
-
-                        cartes.add(new Carte(resultSet.getString("num_carte"), resultSet.getString("nbr_litres")));
-                    }
-                    return cartes;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-    public void addCarte(Carte carte) {
-        try (Connection connection = getConnection()) {
-            String query = "INSERT INTO carte (num_carte, nbr_litres) VALUES (?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, carte.getId());
-                preparedStatement.setString(2, carte.getNb_litres());
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        return (ArrayList<Carte>) carteRepository.findAll();
     }
 
-    public void updateCarte(Carte carte) {
-        try (Connection connection = getConnection()) {
-            String query = "UPDATE carte SET nbr_litres = ? WHERE num_carte = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, carte.getNb_litres());
-                preparedStatement.setString(2, carte.getId());
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Optional<Carte> getCarte(String id) {
+        return carteRepository.findById(id);
     }
 
-    public void deleteCarte(String carteId) {
-        try (Connection connection = getConnection()) {
-            String query = "DELETE FROM carte WHERE num_carte = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, carteId);
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Carte saveCarte(Carte carte) {
+        return carteRepository.save(carte);
     }
 
+    public Optional<Carte> updateCarte(String id, Carte updatedCarte) {
+        return carteRepository.findById(id)
+                .map(carte -> {
+                    carte.setNbr_litres(updatedCarte.getNbr_litres());
+                    return carteRepository.save(carte);
+                });
+    }
+
+    public void deleteCarte(String id) {
+        carteRepository.deleteById(id);
+    }
 }

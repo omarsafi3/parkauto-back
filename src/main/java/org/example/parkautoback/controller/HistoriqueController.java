@@ -21,44 +21,29 @@ public class HistoriqueController {
         return ResponseEntity.ok(historiques);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Historique> getHistorique(@PathVariable String id) {
-        Historique historique = historiqueService.getHistorique(id);
-        if (historique != null) {
-            return ResponseEntity.ok(historique);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return historiqueService.getHistorique(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Historique> addHistorique(@RequestBody Historique historique) {
-        historiqueService.addHistorique(historique);
-        return ResponseEntity.ok(historique);
+        Historique savedHistorique = historiqueService.addHistorique(historique);
+        return ResponseEntity.ok(savedHistorique);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Historique> updateHistorique(@PathVariable String id, @RequestBody Historique historique) {
-        Historique existingHistorique = historiqueService.getHistorique(id);
-        if (existingHistorique != null) {
-            existingHistorique.setH_date(historique.getH_date());
-            existingHistorique.setIdb(historique.getIdb());
-            existingHistorique.setImmat(historique.getImmat());
-            historiqueService.updateHistorique(existingHistorique);
-            return ResponseEntity.ok(historique);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return historiqueService.updateHistorique(historique)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHistorique(@PathVariable String id) {
-        Historique existingHistorique = historiqueService.getHistorique(id);
-        if (existingHistorique != null) {
-            historiqueService.deleteHistorique(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        historiqueService.deleteHistorique(id);
+        return ResponseEntity.noContent().build();
     }
 }

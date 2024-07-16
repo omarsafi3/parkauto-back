@@ -1,39 +1,48 @@
 package org.example.parkautoback.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "historique")
 
 public class Historique {
-
-    private String id;
-    private String h_date;
+    @Id
+    private String idh;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dateh;
     private String idb;
     private String immat;
-    public  Historique(){
+
+    public Historique() {
     }
 
-    public Historique(String id, String h_date, String idb, String immat) {
-        this.id = id;
-        this.h_date = h_date;
+    public Historique(String idh, LocalDate dateh, String idb, String immat) {
+        this.idh = idh;
+        this.dateh = dateh;
         this.idb = idb;
         this.immat = immat;
     }
 
-    public String getId() {
-        return id;
+    public String getIdh() {
+        return idh;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdh(String idh) {
+        this.idh = idh;
     }
 
-    public String getH_date() {
-        return h_date;
+    public LocalDate getDateh() {
+        return dateh;
     }
 
-    public void setH_date(String h_date) {
-        this.h_date = h_date;
+    public void setDateh(LocalDate dateh) {
+        this.dateh = dateh;
     }
 
     public String getIdb() {
@@ -51,4 +60,8 @@ public class Historique {
     public void setImmat(String immat) {
         this.immat = immat;
     }
+
+
+
+
 }

@@ -12,8 +12,12 @@ import java.util.List;
 @RequestMapping("/api/beneficiaires")
 public class BeneficiairesController {
 
+    private final BeneficiairesService beneficiairesService;
+
     @Autowired
-    private BeneficiairesService beneficiairesService;
+    public BeneficiairesController(BeneficiairesService beneficiairesService) {
+        this.beneficiairesService = beneficiairesService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Beneficiaire>> getAllBeneficiaires() {
@@ -21,46 +25,29 @@ public class BeneficiairesController {
         return ResponseEntity.ok(beneficiaires);
     }
 
-    @GetMapping("{idb}")
+    @GetMapping("/{idb}")
     public ResponseEntity<Beneficiaire> getBeneficiaire(@PathVariable String idb) {
-        Beneficiaire beneficiaire = beneficiairesService.getBeneficiaire(idb);
-        if (beneficiaire != null) {
-            return ResponseEntity.ok(beneficiaire);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return beneficiairesService.getBeneficiaire(idb)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Beneficiaire> addBeneficiaire(@RequestBody Beneficiaire beneficiaire) {
-        beneficiairesService.addBeneficiaire(beneficiaire);
-        return ResponseEntity.ok(beneficiaire);
+        Beneficiaire savedBeneficiaire = beneficiairesService.addBeneficiaire(beneficiaire);
+        return ResponseEntity.ok(savedBeneficiaire);
     }
 
-    @PutMapping("{idb}")
+    @PutMapping("/{idb}")
     public ResponseEntity<Beneficiaire> updateBeneficiaire(@PathVariable String idb, @RequestBody Beneficiaire beneficiaire) {
-        Beneficiaire existingBeneficiaire = beneficiairesService.getBeneficiaire(idb);
-        if (existingBeneficiaire != null) {
-            // Update the properties of the existing Beneficiaire with those from the request body
-            existingBeneficiaire.setNom(beneficiaire.getNom());
-            existingBeneficiaire.setPrenom(beneficiaire.getPrenom());
-            existingBeneficiaire.setDate_deb(beneficiaire.getDate_deb());
-            existingBeneficiaire.setDate_fin(beneficiaire.getDate_fin());
-            beneficiairesService.updateBeneficiaire(existingBeneficiaire);
-            return ResponseEntity.ok(existingBeneficiaire);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return beneficiairesService.updateBeneficiaire(idb, beneficiaire)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{idb}")
+    @DeleteMapping("/{idb}")
     public ResponseEntity<Void> deleteBeneficiaire(@PathVariable String idb) {
-        Beneficiaire existingBeneficiaire = beneficiairesService.getBeneficiaire(idb);
-        if (existingBeneficiaire != null) {
-            beneficiairesService.deleteBeneficiaire(idb);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        beneficiairesService.deleteBeneficiaire(idb);
+        return ResponseEntity.noContent().build();
     }
 }

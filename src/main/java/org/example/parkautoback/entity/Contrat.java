@@ -1,54 +1,60 @@
 package org.example.parkautoback.entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
-@Component
 
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "contrat")
 public class Contrat {
-    private String id_contrat;
-    private String immat;
-    private String date_deb;
-    private String date_fin;
+    @Id
+    private String idc;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date_deb;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date_fin;
     private String cout;
     private String type;
-    public Contrat(){
+    private String immat;
+    private String ida;
+
+    public Contrat() {
     }
-    public Contrat(String id_contrat, String immat, String date_deb, String date_fin, String cout, String type) {
-        this.id_contrat = id_contrat;
-        this.immat = immat;
+
+    public Contrat(String idc, LocalDate date_deb, LocalDate date_fin, String cout, String type, String immat, String ida) {
+        this.idc = idc;
         this.date_deb = date_deb;
         this.date_fin = date_fin;
         this.cout = cout;
         this.type = type;
-    }
-
-    public String getId_contrat() {
-        return id_contrat;
-    }
-
-    public void setId_contrat(String id_contrat) {
-        this.id_contrat = id_contrat;
-    }
-
-    public String getImmat() {
-        return immat;
-    }
-
-    public void setImmat(String immat) {
         this.immat = immat;
+        this.ida = ida;
     }
 
-    public String getDate_deb() {
+    public String getIdc() {
+        return idc;
+    }
+
+    public void setIdc(String idc) {
+        this.idc = idc;
+    }
+
+    public LocalDate getDate_debut() {
         return date_deb;
     }
 
-    public void setDate_deb(String date_deb) {
-        this.date_deb = date_deb;
+    public void setDate_debut(LocalDate date_debut) {
+        this.date_deb = date_debut;
     }
 
-    public String getDate_fin() {
+    public LocalDate getDate_fin() {
         return date_fin;
     }
 
-    public void setDate_fin(String date_fin) {
+    public void setDate_fin(LocalDate date_fin) {
         this.date_fin = date_fin;
     }
 
@@ -67,6 +73,25 @@ public class Contrat {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getImmat() {
+        return immat;
+    }
+
+    public void setImmat(String immat) {
+        this.immat = immat;
+    }
+
+    public String getIda() {
+        return ida;
+    }
+
+    public void setIda(String ida) {
+        this.ida = ida;
+    }
+
+
+
 }
 
 

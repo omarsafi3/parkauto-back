@@ -21,44 +21,32 @@ public class CartesController {
         return ResponseEntity.ok(cartes);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Carte> getCarte(@PathVariable String id) {
-        Carte carte = cartesService.getCarte(id);
-        if (carte != null) {
-            return ResponseEntity.ok(carte);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return cartesService.getCarte(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Carte> addCarte(@RequestBody Carte carte) {
-        cartesService.addCarte(carte);
-        return ResponseEntity.ok(carte);
+    public ResponseEntity<Carte> saveCarte(@RequestBody Carte carte) {
+        Carte savedCarte = cartesService.saveCarte(carte);
+        return ResponseEntity.ok(savedCarte);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Carte> updateCarte(@PathVariable String id, @RequestBody Carte carte) {
-        Carte existingCarte = cartesService.getCarte(id);
-        if (existingCarte != null) {
-            existingCarte.setNb_litres(carte.getNb_litres());
-            cartesService.updateCarte(existingCarte);
-            return ResponseEntity.ok(carte);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return cartesService.updateCarte(id, carte)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCarte(@PathVariable String id) {
-        Carte existingCarte = cartesService.getCarte(id);
-        if (existingCarte != null) {
-            cartesService.deleteCarte(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        cartesService.deleteCarte(id);
+        return ResponseEntity.noContent().build();
     }
+
 
 
 }

@@ -1,6 +1,8 @@
 package org.example.parkautoback.controller;
 
 import java.util.List;
+
+import oracle.jdbc.proxy.annotation.Post;
 import org.example.parkautoback.entity.Assurance;
 import org.example.parkautoback.service.AssuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/assurances")
 public class AssuranceController {
-    @Autowired
-    private AssuranceService assuranceService;
+    private final AssuranceService assuranceService;
 
-    public AssuranceController() {
+    @Autowired
+    public AssuranceController(final AssuranceService assuranceService) {
+        this.assuranceService = assuranceService;
     }
 
     @GetMapping
@@ -29,38 +32,29 @@ public class AssuranceController {
         return ResponseEntity.ok(assurances);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Assurance> getAssurance(@PathVariable String id) {
-        Assurance assurance = assuranceService.getAssurance(id);
-        return assurance != null ? ResponseEntity.ok(assurance) : ResponseEntity.notFound().build();
+    @GetMapping("/{ida}")
+    public ResponseEntity<Assurance> getAssurance(@PathVariable String ida) {
+        return assuranceService.getAssurance(ida)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @PutMapping
+    public ResponseEntity<Assurance> updateAssurance(@PathVariable String ida, @RequestBody Assurance assurance) {
+        return assuranceService.updateAssurance(ida, assurance)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Assurance> addAssurance(@RequestBody Assurance assurance) {
-        assuranceService.addAssurance(assurance);
-        return ResponseEntity.ok(assurance);
+    public ResponseEntity<Assurance> saveAssurance(@RequestBody Assurance assurance) {
+        Assurance savedAssurance = assuranceService.saveAssurance(assurance);
+        return ResponseEntity.ok(savedAssurance);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Assurance> updateAssurance(@PathVariable String id, @RequestBody Assurance assurance) {
-        Assurance existingAssurance = assuranceService.getAssurance(id);
-        if (existingAssurance != null) {
-            existingAssurance.setlib(assurance.getLib());
-            assuranceService.updateAssurance(existingAssurance);
-            return ResponseEntity.ok(existingAssurance);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{ida}")
+    public ResponseEntity<Void> deleteAssurance(@PathVariable String ida) {
+        assuranceService.deleteAssurance(ida);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAssurance(@PathVariable String id) {
-        Assurance existingAssurance = assuranceService.getAssurance(id);
-        if (existingAssurance != null) {
-            assuranceService.deleteAssurance(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

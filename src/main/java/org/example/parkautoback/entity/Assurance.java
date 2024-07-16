@@ -1,33 +1,42 @@
 package org.example.parkautoback.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.List;
+
+@Entity
+@Table(name = "assurance")
 public class Assurance {
-    private String id;
-    private String lib;
+    @Id
+    private String ida;
+    private String libelle;
+
 
     public Assurance() {
     }
 
-    public Assurance(String id, String lib) {
-        this.id = id;
-        this.lib = lib;
+    public Assurance(String ida, String libelle) {
+        this.ida = ida;
+        this.libelle = libelle;
     }
 
-    public String getId() {
-        return id;
+    public String getIda() {
+        return ida;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.ida = id;
     }
 
     public String getLib() {
-        return lib;
+        return libelle;
     }
 
-    public void setlib(String lib) {
-        this.lib = lib;
+    public void setLib(String lib) {
+        this.libelle = lib;
     }
 }

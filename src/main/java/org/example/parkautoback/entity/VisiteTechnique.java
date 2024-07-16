@@ -1,19 +1,30 @@
 package org.example.parkautoback.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "visite_technique")
 public class VisiteTechnique {
+    @Id
     private String idvt;
-    private String date_deb;
-    private String date_fin;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date_deb;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date_fin;
     private String cout;
     private String immat;
 
     public VisiteTechnique() {
     }
 
-    public VisiteTechnique(String idvt, String date_deb, String date_fin, String cout, String immat) {
+    public VisiteTechnique(String idvt, LocalDate date_deb, LocalDate date_fin, String cout, String immat) {
         this.idvt = idvt;
         this.date_deb = date_deb;
         this.date_fin = date_fin;
@@ -29,19 +40,19 @@ public class VisiteTechnique {
         this.idvt = idvt;
     }
 
-    public String getDate_deb() {
+    public LocalDate getDate_deb() {
         return date_deb;
     }
 
-    public void setDate_deb(String date_deb) {
+    public void setDate_deb(LocalDate date_deb) {
         this.date_deb = date_deb;
     }
 
-    public String getDate_fin() {
+    public LocalDate getDate_fin() {
         return date_fin;
     }
 
-    public void setDate_fin(String date_fin) {
+    public void setDate_fin(LocalDate date_fin) {
         this.date_fin = date_fin;
     }
 

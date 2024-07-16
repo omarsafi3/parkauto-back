@@ -19,46 +19,31 @@ public class VignetteController {
         List<Vignette> vignettes = vignetteService.getAllVignettes();
         return ResponseEntity.ok(vignettes);
     }
-    @GetMapping("{id}")
-    public ResponseEntity<Vignette> getVignette(@PathVariable String id) {
-        Vignette vignette = vignetteService.getVignette(id);
-        if (vignette != null) {
-            return ResponseEntity.ok(vignette);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+
+    @GetMapping("/{idv}")
+    public ResponseEntity<Vignette> getVignette(@PathVariable String idv) {
+        return vignetteService.getVignette(idv)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @PostMapping
-    public ResponseEntity<Vignette> addVignette(@RequestBody Vignette vignette) {
-        vignetteService.addVignette(vignette);
-        return ResponseEntity.ok(vignette);
+    public ResponseEntity<Vignette> saveVignette(@RequestBody Vignette vignette) {
+        Vignette savedVignette = vignetteService.saveVignette(vignette);
+        return ResponseEntity.ok(savedVignette);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Vignette> updateVignette(@PathVariable String id, @RequestBody Vignette vignette) {
-        Vignette existingVignette = vignetteService.getVignette(id);
-        if (existingVignette != null) {
-            existingVignette.setDate_deb(vignette.getDate_deb());
-            existingVignette.setDate_fin(vignette.getDate_fin());
-            existingVignette.setCout(vignette.getCout());
-            existingVignette.setStatus(vignette.getStatus());
-            existingVignette.setImmat(vignette.getImmat());
-            vignetteService.updateVignette(existingVignette);
-            return ResponseEntity.ok(vignette);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping("/{idv}")
+    public ResponseEntity<Vignette> updateVignette(@PathVariable String idv, @RequestBody Vignette vignette) {
+        return vignetteService.updateVignette(idv, vignette)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteVignette(@PathVariable String id) {
-        Vignette existingVignette = vignetteService.getVignette(id);
-        if (existingVignette != null) {
-            vignetteService.deleteVignette(id);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{idv}")
+    public ResponseEntity<Void> deleteVignette(@PathVariable String idv) {
+        vignetteService.deleteVignette(idv);
+        return ResponseEntity.noContent().build();
     }
 
 

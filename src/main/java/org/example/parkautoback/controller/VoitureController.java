@@ -20,50 +20,30 @@ public class VoitureController {
         return ResponseEntity.ok(voitures);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Voiture> getVoiture(@PathVariable String id) {
-        Voiture voiture = voitureService.getVoiture(id);
-        if (voiture != null) {
-            return ResponseEntity.ok(voiture);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{immat}")
+    public ResponseEntity<Voiture> getVoiture(@PathVariable String immat) {
+        return voitureService.getVoiture(immat)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Voiture> addVoiture(@RequestBody Voiture voiture) {
-        voitureService.addVoiture(voiture);
-        return ResponseEntity.ok(voiture);
+    public ResponseEntity<Voiture> saveVoiture(@RequestBody Voiture voiture) {
+        Voiture savedVoiture = voitureService.saveVoiture(voiture);
+        return ResponseEntity.ok(savedVoiture);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Voiture> updateVoiture(@PathVariable String id, @RequestBody Voiture voiture) {
-        Voiture existingVoiture = voitureService.getVoiture(id);
-        if (existingVoiture != null) {
-            existingVoiture.setType(voiture.getType());
-            existingVoiture.setFonction(voiture.getFonction());
-            existingVoiture.setAge(voiture.getAge());
-            existingVoiture.setMise_en_route(voiture.getMise_en_route());
-            existingVoiture.setPuissance(voiture.getPuissance());
-            existingVoiture.setCarburant(voiture.getCarburant());
-            existingVoiture.setPrix(voiture.getPrix());
-            existingVoiture.setGps(voiture.getGps());
-            voitureService.updateVoiture(existingVoiture);
-            return ResponseEntity.ok(voiture);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping("/{immat}")
+    public ResponseEntity<Voiture> updateVoiture(@PathVariable String immat, @RequestBody Voiture voiture) {
+        return voitureService.updateVoiture(immat, voiture)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteVoiture(@PathVariable String id) {
-        Voiture existingVoiture = voitureService.getVoiture(id);
-        if (existingVoiture != null) {
-            voitureService.deleteVoiture(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{immat}")
+    public ResponseEntity<Void> deleteVoiture(@PathVariable String immat) {
+        voitureService.deleteVoiture(immat);
+        return ResponseEntity.noContent().build();
     }
 
 

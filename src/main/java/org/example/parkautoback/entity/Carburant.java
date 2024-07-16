@@ -1,11 +1,15 @@
 package org.example.parkautoback.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Entity
+@Table(name = "carburant")
 public class Carburant {
-
+    @Id
     private String idc;
     private String lib;
     private String prix_litre;

@@ -3,7 +3,6 @@ package org.example.parkautoback.controller;
 import org.example.parkautoback.entity.Carburant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.example.parkautoback.service.CarburantService;
 
@@ -12,9 +11,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/carburants")
 public class CarburantController {
-
+    private final CarburantService carburantService;
     @Autowired
-    private CarburantService carburantService;
+    public CarburantController(final CarburantService carburantService) {
+        this.carburantService = carburantService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Carburant>> getAllCarburants() {
@@ -22,45 +23,32 @@ public class CarburantController {
         return ResponseEntity.ok(carburants);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Carburant> getCarburant(@PathVariable String id) {
-        Carburant carburant = carburantService.getCarburant(id);
-        if (carburant != null) {
-            return ResponseEntity.ok(carburant);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{idc}")
+    public ResponseEntity<Carburant> getCarburant(@PathVariable String idc) {
+        return carburantService.getCarburant(idc)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{idc}")
+    public ResponseEntity<Carburant> updateCarburant(@PathVariable String idc, @RequestBody Carburant carburant) {
+        return carburantService.updateCarburant(idc, carburant)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Carburant> addCarburant(@RequestBody Carburant carburant) {
-        carburantService.addCarburant(carburant);
-        return ResponseEntity.ok(carburant);
+    public ResponseEntity<Carburant> saveCarburant(@RequestBody Carburant carburant) {
+        Carburant savedCarburant = carburantService.saveCarburant(carburant);
+        return ResponseEntity.ok(savedCarburant);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Carburant> updateCarburant(@PathVariable String id,@RequestBody Carburant carburant) {
-        Carburant existingCarburant = carburantService.getCarburant(id);
-        if (existingCarburant != null) {
-            existingCarburant.setLib(carburant.getLib());
-            existingCarburant.setPrix_litre(carburant.getPrix_litre());
-            carburantService.updateCarburant(existingCarburant);
-            return ResponseEntity.ok(carburant);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{idc}")
+    public ResponseEntity<Void> deleteCarburant(@PathVariable String idc) {
+        carburantService.deleteCarburant(idc);
+        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteCarburant(@PathVariable String id) {
-        Carburant existingCarburant = carburantService.getCarburant(id);
-        if (existingCarburant != null) {
-            carburantService.deleteCarburant(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
 
 

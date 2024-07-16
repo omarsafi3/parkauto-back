@@ -1,95 +1,53 @@
 package org.example.parkautoback.service;
 
 import org.example.parkautoback.entity.Fonction;
+import org.example.parkautoback.repository.ContratRepository;
+import org.example.parkautoback.repository.FonctionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class FonctionService {
     @Autowired
-    private DataSource dataSource;
+    private final FonctionRepository FonctionRepository;
 
-    public FonctionService() {
-    }
-
-    public Connection getConnection() throws SQLException {
-        return this.dataSource.getConnection();
+    public FonctionService(FonctionRepository FonctionRepository) {
+        this.FonctionRepository = FonctionRepository;
     }
 
     public ArrayList<Fonction> getAllFonctions() {
-        ArrayList<Fonction> fonctions = new ArrayList<>();
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM fonction");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                fonctions.add(new Fonction(resultSet.getString("code"), resultSet.getString("lib"), resultSet.getString("part_pre"), resultSet.getString("part_post")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return fonctions;
+        return (ArrayList<Fonction>) FonctionRepository.findAll();
     }
 
-    public Fonction getFonction(String fonctionCode) {
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM fonction WHERE code = ?")) {
-
-            preparedStatement.setString(1, fonctionCode);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Fonction(resultSet.getString("code"), resultSet.getString("lib"), resultSet.getString("part_pre"), resultSet.getString("part_post"));
-                } else {
-                    System.out.println("Fonction not found");
-                    return null;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Optional<Fonction> getFonction(String idf) {
+        return FonctionRepository.findById(idf);
     }
 
-    public void addFonction(Fonction fonction) {
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO fonction (code, lib, part_pre, part_post) VALUES (?, ?, ?, ?)")) {
-
-            preparedStatement.setString(1, fonction.getCode());
-            preparedStatement.setString(2, fonction.getLib());
-            preparedStatement.setString(3, fonction.getPart_pre());
-            preparedStatement.setString(4, fonction.getPart_post());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Fonction saveFonction(Fonction Fonction) {
+        return FonctionRepository.save(Fonction);
     }
 
-    public void updateFonction(Fonction fonction) {
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE fonction SET lib = ?, part_pre = ?, part_post = ? WHERE code = ?")) {
-
-            preparedStatement.setString(1, fonction.getLib());
-            preparedStatement.setString(2, fonction.getPart_pre());
-            preparedStatement.setString(3, fonction.getPart_post());
-            preparedStatement.setString(4, fonction.getCode());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Optional<Fonction> updateFonction(String idf, Fonction updatedFonction) {
+        return FonctionRepository.findById(idf)
+                .map(Fonction -> {
+                    Fonction.setLib(updatedFonction.getLib());
+                    return FonctionRepository.save(Fonction);
+                });
     }
 
-    public void deleteFonction(String fonctionCode) {
-        try (Connection connection = this.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM fonction WHERE code = ?")) {
-
-            preparedStatement.setString(1, fonctionCode);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void deleteFonction(String idf) {
+        FonctionRepository.deleteById(idf);
     }
+
+
+
+
+
+
+
 }

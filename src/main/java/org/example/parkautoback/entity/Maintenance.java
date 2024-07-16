@@ -1,41 +1,54 @@
 package org.example.parkautoback.entity;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.tools.javac.Main;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
-@Component
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "maintenance")
 
 public class Maintenance {
-    private String id;
-    private String type;
+    @Id
+    private String idm;
+    private String typem;
     private String description;
     private String cout;
-    private String m_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate datem;
     private String garage;
+    private String immat;
 
     public Maintenance() {
     }
 
-    public Maintenance(String id,String type,String description,String cout,String m_date,String garage) {
-        this.id = id;
-        this.type = type;
+    public Maintenance(String idm, String typem, String description, String cout, LocalDate datem, String garage, String immat) {
+        this.idm = idm;
+        this.typem = typem;
         this.description = description;
         this.cout = cout;
-        this.m_date = m_date;
+        this.datem = datem;
         this.garage = garage;
+        this.immat = immat;
     }
 
-    public String getId() {
-        return id;
+    public String getIdm() {
+        return idm;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdm(String idm) {
+        this.idm = idm;
     }
 
-    public String getType() {
-        return type;
+    public String getTypem() {
+        return typem;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypem(String typem) {
+        this.typem = typem;
     }
 
     public String getDescription() {
@@ -54,12 +67,12 @@ public class Maintenance {
         this.cout = cout;
     }
 
-    public String getM_date() {
-        return m_date;
+    public LocalDate getDatem() {
+        return datem;
     }
 
-    public void setM_date(String m_date) {
-        this.m_date = m_date;
+    public void setDatem(LocalDate datem) {
+        this.datem = datem;
     }
 
     public String getGarage() {
@@ -69,4 +82,15 @@ public class Maintenance {
     public void setGarage(String garage) {
         this.garage = garage;
     }
+
+    public String getImmat() {
+        return immat;
+    }
+
+    public void setImmat(String immat) {
+        this.immat = immat;
+    }
+
+
+
 }

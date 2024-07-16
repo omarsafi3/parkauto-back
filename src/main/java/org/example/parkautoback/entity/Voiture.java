@@ -1,9 +1,14 @@
 package org.example.parkautoback.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
 
-@Component
+@Entity
+@Table(name = "voiture")
 public class Voiture {
+    @Id
     private String immat;
     private String type;
     private String fonction;

@@ -16,52 +16,34 @@ public class OrdreDeMissionController {
     private OrdreDeMissionService ordreDeMissionService;
 
     @GetMapping
-    public ResponseEntity<List<OrdreDeMission>> getAllOrdresDeMission() {
-        List<OrdreDeMission> ordresDeMission = ordreDeMissionService.getAllOrdresDeMission();
-        return ResponseEntity.ok(ordresDeMission);
+    public ResponseEntity<List<OrdreDeMission>> getAllOrdreDeMissions() {
+        List<OrdreDeMission> ordreDeMissions = ordreDeMissionService.getAllOrdreDeMissions();
+        return ResponseEntity.ok(ordreDeMissions);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<OrdreDeMission> getOrdreDeMission(@PathVariable String id) {
-        OrdreDeMission ordreDeMission = ordreDeMissionService.getOrdreDeMission(id);
-        if (ordreDeMission != null) {
-            return ResponseEntity.ok(ordreDeMission);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/{idom}")
+    public ResponseEntity<OrdreDeMission> getOrdreDeMission(@PathVariable String idom) {
+        return ordreDeMissionService.getOrdreDeMission(idom)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<OrdreDeMission> addOrdreDeMission(@RequestBody OrdreDeMission ordreDeMission) {
-        ordreDeMissionService.addOrdreDeMission(ordreDeMission);
-        return ResponseEntity.ok(ordreDeMission);
+        OrdreDeMission savedOrdreDeMission = ordreDeMissionService.addOrdreDeMission(ordreDeMission);
+        return ResponseEntity.ok(savedOrdreDeMission);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<OrdreDeMission> updateOrdreDeMission(@PathVariable String id, @RequestBody OrdreDeMission ordreDeMission) {
-        OrdreDeMission existingOrdreDeMission = ordreDeMissionService.getOrdreDeMission(id);
-        if (existingOrdreDeMission != null) {
-            existingOrdreDeMission.setObjectif(ordreDeMission.getObjectif());
-            existingOrdreDeMission.setDate_dep(ordreDeMission.getDate_dep());
-            existingOrdreDeMission.setDate_fin(ordreDeMission.getDate_fin());
-            existingOrdreDeMission.setTrajet(ordreDeMission.getTrajet());
-            existingOrdreDeMission.setCourrier(ordreDeMission.getCourrier());
-            existingOrdreDeMission.setAccompagnant(ordreDeMission.getAccompagnant());
-            ordreDeMissionService.updateOrdreDeMission(existingOrdreDeMission);
-            return ResponseEntity.ok(ordreDeMission);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping("/{idom}")
+    public ResponseEntity<OrdreDeMission> updateOrdreDeMission(@PathVariable String idom, @RequestBody OrdreDeMission ordreDeMission) {
+        return ordreDeMissionService.updateOrdreDeMission(idom, ordreDeMission)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteOrdreDeMission(@PathVariable String id) {
-        OrdreDeMission existingOrdreDeMission = ordreDeMissionService.getOrdreDeMission(id);
-        if (existingOrdreDeMission != null) {
-            ordreDeMissionService.deleteOrdreDeMission(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping("/{idom}")
+    public ResponseEntity<Void> deleteOrdreDeMission(@PathVariable String idom) {
+        ordreDeMissionService.deleteOrdreDeMission(idom);
+        return ResponseEntity.noContent().build();
     }
 }

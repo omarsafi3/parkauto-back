@@ -21,47 +21,32 @@ public class VisiteTechniqueController {
         return ResponseEntity.ok(visiteTechniques);
     }
 
-    @GetMapping("{idvt}")
+    @GetMapping("/{idvt}")
     public ResponseEntity<VisiteTechnique> getVisiteTechnique(@PathVariable String idvt) {
-        VisiteTechnique visiteTechnique = visiteTechniqueService.getVisiteTechnique(idvt);
-        if (visiteTechnique != null) {
-            return ResponseEntity.ok(visiteTechnique);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return visiteTechniqueService.getVisiteTechnique(idvt)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<VisiteTechnique> addVisiteTechnique(@RequestBody VisiteTechnique visiteTechnique) {
-        visiteTechniqueService.addVisiteTechnique(visiteTechnique);
-        return ResponseEntity.ok(visiteTechnique);
+        VisiteTechnique savedVisiteTechnique = visiteTechniqueService.addVisiteTechnique(visiteTechnique);
+        return ResponseEntity.ok(savedVisiteTechnique);
     }
 
-    @PutMapping("{idvt}")
+    @PutMapping("/{idvt}")
     public ResponseEntity<VisiteTechnique> updateVisiteTechnique(@PathVariable String idvt, @RequestBody VisiteTechnique visiteTechnique) {
-        VisiteTechnique existingVisiteTechnique = visiteTechniqueService.getVisiteTechnique(idvt);
-        if (existingVisiteTechnique != null) {
-            existingVisiteTechnique.setDate_deb(visiteTechnique.getDate_deb());
-            existingVisiteTechnique.setDate_fin(visiteTechnique.getDate_fin());
-            existingVisiteTechnique.setCout(visiteTechnique.getCout());
-            existingVisiteTechnique.setImmat(visiteTechnique.getImmat());
-            visiteTechniqueService.updateVisiteTechnique(existingVisiteTechnique);
-            return ResponseEntity.ok(visiteTechnique);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return visiteTechniqueService.updateVisiteTechnique(idvt, visiteTechnique)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("{idvt}")
+    @DeleteMapping("/{idvt}")
     public ResponseEntity<Void> deleteVisiteTechnique(@PathVariable String idvt) {
-        VisiteTechnique existingVisiteTechnique = visiteTechniqueService.getVisiteTechnique(idvt);
-        if (existingVisiteTechnique != null) {
-            visiteTechniqueService.deleteVisiteTechnique(idvt);
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        visiteTechniqueService.deleteVisiteTechnique(idvt);
+        return ResponseEntity.noContent().build();
     }
+
 
 
 

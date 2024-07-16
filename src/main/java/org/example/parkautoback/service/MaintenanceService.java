@@ -1,6 +1,8 @@
 package org.example.parkautoback.service;
 
+import com.sun.tools.javac.Main;
 import org.example.parkautoback.entity.Maintenance;
+import org.example.parkautoback.repository.MaintenanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,111 +10,46 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MaintenanceService {
 
     @Autowired
-    private DataSource dataSource;
+    private MaintenanceRepository maintenanceRepository;
 
-    public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+    public MaintenanceService() {
     }
 
-    public Maintenance getMaintenance(String id) {
-        try (Connection connection = getConnection()) {
-            String query = "SELECT * FROM maintenance WHERE id = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, id);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        return new Maintenance(
-                                resultSet.getString("id"),
-                                resultSet.getString("type"),
-                                resultSet.getString("description"),
-                                resultSet.getString("cout"),
-                                resultSet.getString("m_date"),
-                                resultSet.getString("garage")
-                        );
-                    } else {
-                        return null;
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public ArrayList<Maintenance> getAllMaintenances() {
+        return (ArrayList<Maintenance>) maintenanceRepository.findAll();
     }
 
-    public List<Maintenance> getAllMaintenance() {
-        try (Connection connection = getConnection()) {
-            String query = "SELECT * FROM maintenance";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    List<Maintenance> maintenances = new ArrayList<>();
-                    while (resultSet.next()) {
-                        maintenances.add(new Maintenance(
-                                resultSet.getString("id"),
-                                resultSet.getString("type"),
-                                resultSet.getString("description"),
-                                resultSet.getString("cout"),
-                                resultSet.getString("m_date"),
-                                resultSet.getString("garage")
-                        ));
-                    }
-                    return maintenances;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Optional<Maintenance> getMaintenance(String idm) {
+        return maintenanceRepository.findById(idm);
     }
 
-    public void addMaintenance(Maintenance maintenance) {
-        try (Connection connection = getConnection()) {
-            String query = "INSERT INTO maintenance (id, type, description, cout, m_date, garage) VALUES (?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, maintenance.getId());
-                preparedStatement.setString(2, maintenance.getType());
-                preparedStatement.setString(3, maintenance.getDescription());
-                preparedStatement.setString(4, maintenance.getCout());
-                preparedStatement.setString(5, maintenance.getM_date());
-                preparedStatement.setString(6, maintenance.getGarage());
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Maintenance saveMaintenance(Maintenance maintenance) {
+        return maintenanceRepository.save(maintenance);
     }
 
-    public void updateMaintenance(Maintenance maintenance) {
-        try (Connection connection = getConnection()) {
-            String query = "UPDATE maintenance SET type = ?, description = ?, cout = ?, m_date = ?, garage = ? WHERE id = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, maintenance.getType());
-                preparedStatement.setString(2, maintenance.getDescription());
-                preparedStatement.setString(3, maintenance.getCout());
-                preparedStatement.setString(4, maintenance.getM_date());
-                preparedStatement.setString(5, maintenance.getGarage());
-                preparedStatement.setString(6, maintenance.getId());
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Optional<Maintenance> updateMaintenance(String idm, Maintenance maintenance) {
+        return maintenanceRepository.findById(idm)
+                .map(Maintenance -> {
+                    Maintenance.setTypem(maintenance.getTypem());
+                    Maintenance.setDatem(maintenance.getDatem());
+                    Maintenance.setCout(maintenance.getCout());
+                    Maintenance.setDescription(maintenance.getDescription());
+                    Maintenance.setGarage(maintenance.getGarage());
+                    Maintenance.setImmat(maintenance.getImmat());
+                    return maintenanceRepository.save(Maintenance);
+                });
     }
 
-    public void deleteMaintenance(String id) {
-        try (Connection connection = getConnection()) {
-            String query = "DELETE FROM maintenance WHERE id = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, id);
-                preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void deleteMaintenance(String idm) {
+        maintenanceRepository.deleteById(idm);
     }
+
+
+
 }

@@ -1,13 +1,24 @@
 package org.example.parkautoback.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "ordre_de_mission")
 public class OrdreDeMission {
+    @Id
     private String id;
+    private String employe_id;
     private String objectif;
-    private String date_dep;
-    private String date_fin;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date_dep;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate date_arr;
     private String trajet;
     private String courrier;
     private String accompagnant;
@@ -15,11 +26,12 @@ public class OrdreDeMission {
     public OrdreDeMission() {
     }
 
-    public OrdreDeMission(String id, String objectif, String date_dep, String date_fin, String trajet, String courrier, String accompagnant) {
+    public OrdreDeMission(String id, String employe_id, String objectif, LocalDate date_dep, LocalDate date_arr, String trajet, String courrier, String accompagnant) {
         this.id = id;
+        this.employe_id = employe_id;
         this.objectif = objectif;
         this.date_dep = date_dep;
-        this.date_fin = date_fin;
+        this.date_arr = date_arr;
         this.trajet = trajet;
         this.courrier = courrier;
         this.accompagnant = accompagnant;
@@ -33,6 +45,14 @@ public class OrdreDeMission {
         this.id = id;
     }
 
+    public String getEmploye_id() {
+        return employe_id;
+    }
+
+    public void setEmploye_id(String employe_id) {
+        this.employe_id = employe_id;
+    }
+
     public String getObjectif() {
         return objectif;
     }
@@ -41,20 +61,20 @@ public class OrdreDeMission {
         this.objectif = objectif;
     }
 
-    public String getDate_dep() {
+    public LocalDate getDate_dep() {
         return date_dep;
     }
 
-    public void setDate_dep(String date_dep) {
+    public void setDate_dep(LocalDate date_dep) {
         this.date_dep = date_dep;
     }
 
-    public String getDate_fin() {
-        return date_fin;
+    public LocalDate getDate_arr() {
+        return date_arr;
     }
 
-    public void setDate_fin(String date_fin) {
-        this.date_fin = date_fin;
+    public void setDate_arr(LocalDate date_arr) {
+        this.date_arr = date_arr;
     }
 
     public String getTrajet() {
@@ -80,4 +100,8 @@ public class OrdreDeMission {
     public void setAccompagnant(String accompagnant) {
         this.accompagnant = accompagnant;
     }
+
+
+
+
 }

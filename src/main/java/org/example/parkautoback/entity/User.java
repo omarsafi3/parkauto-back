@@ -1,17 +1,18 @@
 package org.example.parkautoback.entity;
 
-import org.example.parkautoback.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Component
+@Entity
+@Table(name = "utilisateurs")
 public class User {
+    @Id
     private String username;
     private String password;
     private String role;
 
-    @Autowired
-    private AuthService authService;
+
 
     public User() {
     }
@@ -26,9 +27,6 @@ public class User {
         this.role = role;
     }
 
-    public String authenticate(User user) {
-        return authService.authenticate(user.getUsername(), user.getPassword());
-    }
 
     public String getUsername() {
         return username;

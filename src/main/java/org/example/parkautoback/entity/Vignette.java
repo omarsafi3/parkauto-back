@@ -1,9 +1,14 @@
 package org.example.parkautoback.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.stereotype.Component;
 
-@Component
+@Entity
+@Table(name = "vignette")
 public class Vignette {
+    @Id
     private String idv;
     private String date_deb;
     private String date_fin;
