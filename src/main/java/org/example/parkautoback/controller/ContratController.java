@@ -11,9 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/contrats")
 public class ContratController {
-
+    private final ContratService contratService;
     @Autowired
-    private ContratService contratService;
+    public ContratController(final ContratService contratService) {
+        this.contratService = contratService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Contrat>> getAllContrats() {

@@ -4,9 +4,6 @@ import org.example.parkautoback.entity.Historique;
 import org.example.parkautoback.repository.HistoriqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -31,8 +28,8 @@ public class HistoriqueService {
         return historiqueRepository.save(historique);
     }
 
-    public Optional<Historique> updateHistorique(Historique historique) {
-        return historiqueRepository.findById(historique.getIdh())
+    public Optional<Historique> updateHistorique(String idh, Historique historique) {
+        return historiqueRepository.findById(idh)
                 .map(Historique -> {
                     Historique.setDateh(historique.getDateh());
                     Historique.setIdb(historique.getIdb());

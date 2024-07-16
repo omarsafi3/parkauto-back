@@ -1,6 +1,5 @@
 package org.example.parkautoback.controller;
 
-import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/visiteTechniques")
 public class VisiteTechniqueController {
+    private final VisiteTechniqueService visiteTechniqueService;
+
     @Autowired
-    private VisiteTechniqueService visiteTechniqueService;
+    public VisiteTechniqueController(final VisiteTechniqueService visiteTechniqueService) {
+        this.visiteTechniqueService = visiteTechniqueService;
+    }
 
     @GetMapping
     public ResponseEntity<List<VisiteTechnique>> getAllVisiteTechniques() {

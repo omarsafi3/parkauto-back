@@ -1,25 +1,22 @@
 package org.example.parkautoback.service;
 
-import com.sun.tools.javac.Main;
 import org.example.parkautoback.entity.Maintenance;
 import org.example.parkautoback.repository.MaintenanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
-import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class MaintenanceService {
 
-    @Autowired
-    private MaintenanceRepository maintenanceRepository;
+    private final MaintenanceRepository maintenanceRepository;
 
-    public MaintenanceService() {
+    @Autowired
+    public MaintenanceService(final MaintenanceRepository maintenanceRepository) {
+        this.maintenanceRepository = maintenanceRepository;
     }
+
 
     public ArrayList<Maintenance> getAllMaintenances() {
         return (ArrayList<Maintenance>) maintenanceRepository.findAll();

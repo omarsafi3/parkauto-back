@@ -11,9 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cartes")
 public class CartesController {
-
+    private final CartesService cartesService;
     @Autowired
-    private CartesService cartesService;
+    public CartesController(final CartesService cartesService) {
+        this.cartesService = cartesService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Carte>> getAllCartes() {

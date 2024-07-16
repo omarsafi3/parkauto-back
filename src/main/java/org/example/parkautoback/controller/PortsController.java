@@ -4,7 +4,6 @@ import org.example.parkautoback.entity.Ports;
 import org.example.parkautoback.service.PortsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,11 +12,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ports")
 public class PortsController {
-
+    private final PortsService portsService;
     @Autowired
-    private PortsService portsService;
-
-    public PortsController(PortsService portsService) {
+    public PortsController(final PortsService portsService) {
         this.portsService = portsService;
     }
 

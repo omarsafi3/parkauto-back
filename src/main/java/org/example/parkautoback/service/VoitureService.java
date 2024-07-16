@@ -4,19 +4,17 @@ import org.example.parkautoback.entity.Voiture;
 import org.example.parkautoback.repository.VoitureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
 
 public class VoitureService {
-    @Autowired
+
     private final VoitureRepository voitureRepository;
 
-    public VoitureService(VoitureRepository voitureRepository) {
+    @Autowired
+    public VoitureService(final VoitureRepository voitureRepository) {
         this.voitureRepository = voitureRepository;
     }
 

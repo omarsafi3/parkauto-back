@@ -4,18 +4,15 @@ import org.example.parkautoback.entity.Vignette;
 import org.example.parkautoback.repository.VignetteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.sql.DataSource;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
 public class VignetteService {
-    @Autowired
     private final VignetteRepository vignetteRepository;
 
-    public VignetteService(VignetteRepository vignetteRepository) {
+    @Autowired
+    public VignetteService(final VignetteRepository vignetteRepository) {
         this.vignetteRepository = vignetteRepository;
     }
 

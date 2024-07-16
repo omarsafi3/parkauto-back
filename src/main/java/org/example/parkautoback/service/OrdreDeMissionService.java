@@ -5,16 +5,15 @@ import org.example.parkautoback.repository.OrdreDeMissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 @Service
 public class OrdreDeMissionService {
-    @Autowired
+
     private final OrdreDeMissionRepository ordreDeMissionRepository;
 
-    public OrdreDeMissionService(OrdreDeMissionRepository ordreDeMissionRepository) {
+    @Autowired
+    public OrdreDeMissionService(final OrdreDeMissionRepository ordreDeMissionRepository) {
         this.ordreDeMissionRepository = ordreDeMissionRepository;
     }
 

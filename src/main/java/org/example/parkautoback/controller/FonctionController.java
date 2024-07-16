@@ -12,9 +12,12 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/api/fonctions")
 public class FonctionController {
+
+    private final FonctionService fonctionService;
+    
     @Autowired
-    private FonctionService fonctionService;
-    public FonctionController() {
+    public FonctionController(final FonctionService fonctionService) {
+        this.fonctionService = fonctionService;
     }
 
     @GetMapping

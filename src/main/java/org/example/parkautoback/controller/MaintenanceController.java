@@ -8,13 +8,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Optional;
+
 
 @Controller
 @RequestMapping("/api/maintenance")
 public class MaintenanceController {
+    private final MaintenanceService maintenanceService;
+
     @Autowired
-    private MaintenanceService maintenanceService;
+    public MaintenanceController(final MaintenanceService maintenanceService) {
+        this.maintenanceService = maintenanceService;
+    }
+
 
     @GetMapping
     public ResponseEntity<ArrayList<Maintenance>> getAllMaintenances() {

@@ -4,17 +4,16 @@ import org.example.parkautoback.entity.VisiteTechnique;
 import org.example.parkautoback.repository.VisiteTechniqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
-import javax.sql.DataSource;
 
 @Service
 public class VisiteTechniqueService {
-    @Autowired
+
     private final VisiteTechniqueRepository visiteTechniqueRepository;
 
-    public VisiteTechniqueService(VisiteTechniqueRepository visiteTechniqueRepository) {
+    @Autowired
+    public VisiteTechniqueService(final VisiteTechniqueRepository visiteTechniqueRepository) {
         this.visiteTechniqueRepository = visiteTechniqueRepository;
     }
 

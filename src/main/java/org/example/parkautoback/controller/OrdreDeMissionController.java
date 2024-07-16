@@ -11,9 +11,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ordres-de-mission")
 public class OrdreDeMissionController {
+    private final OrdreDeMissionService ordreDeMissionService;
 
     @Autowired
-    private OrdreDeMissionService ordreDeMissionService;
+    public OrdreDeMissionController(final OrdreDeMissionService ordreDeMissionService) {
+        this.ordreDeMissionService = ordreDeMissionService;
+    }
 
     @GetMapping
     public ResponseEntity<List<OrdreDeMission>> getAllOrdreDeMissions() {

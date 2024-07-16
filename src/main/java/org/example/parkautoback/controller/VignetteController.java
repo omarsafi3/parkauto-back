@@ -11,8 +11,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/vignettes")
 public class VignetteController {
+    private final VignetteService vignetteService;
     @Autowired
-    private VignetteService vignetteService;
+    public VignetteController(final VignetteService vignetteService) {
+        this.vignetteService = vignetteService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Vignette>> getAllVignettes() {

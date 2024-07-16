@@ -11,9 +11,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/historique")
 public class HistoriqueController {
+    private final HistoriqueService historiqueService;
 
     @Autowired
-    private HistoriqueService historiqueService;
+    public HistoriqueController(final HistoriqueService historiqueService) {
+        this.historiqueService = historiqueService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Historique>> getAllHistoriques() {
@@ -36,7 +40,7 @@ public class HistoriqueController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Historique> updateHistorique(@PathVariable String id, @RequestBody Historique historique) {
-        return historiqueService.updateHistorique(historique)
+        return historiqueService.updateHistorique(id, historique)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

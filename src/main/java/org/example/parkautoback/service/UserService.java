@@ -5,17 +5,16 @@ import org.example.parkautoback.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.*;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    @Autowired
+
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
+    @Autowired
+    public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

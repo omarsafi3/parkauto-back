@@ -11,8 +11,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/transactions")
 public class TransactionsController {
+    private final TransactionsService transactionsService;
+
     @Autowired
-    private TransactionsService transactionsService;
+    public TransactionsController(final TransactionsService transactionsService) {
+        this.transactionsService = transactionsService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Transactions>> getAllTransactions() {

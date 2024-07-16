@@ -4,8 +4,6 @@ import org.example.parkautoback.entity.Carburant;
 import org.example.parkautoback.repository.CarburantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.sql.DataSource;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.Optional;
 

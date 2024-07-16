@@ -2,7 +2,6 @@ package org.example.parkautoback.controller;
 
 import java.util.List;
 
-import oracle.jdbc.proxy.annotation.Post;
 import org.example.parkautoback.entity.Assurance;
 import org.example.parkautoback.service.AssuranceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,8 @@ public class AssuranceController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    @PutMapping
+
+    @PutMapping("/{ida}")
     public ResponseEntity<Assurance> updateAssurance(@PathVariable String ida, @RequestBody Assurance assurance) {
         return assuranceService.updateAssurance(ida, assurance)
                 .map(ResponseEntity::ok)
