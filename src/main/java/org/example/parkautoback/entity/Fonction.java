@@ -1,14 +1,13 @@
 package org.example.parkautoback.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "fonction")
 public class Fonction {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String code;
     private String lib;
     private String part_pre;

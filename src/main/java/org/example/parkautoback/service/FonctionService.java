@@ -32,6 +32,8 @@ public class FonctionService {
         return FonctionRepository.findById(idf)
                 .map(Fonction -> {
                     Fonction.setLib(updatedFonction.getLib());
+                    Fonction.setPart_pre(updatedFonction.getPart_pre());
+                    Fonction.setPart_post(updatedFonction.getPart_post());
                     return FonctionRepository.save(Fonction);
                 });
     }
