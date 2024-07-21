@@ -1,9 +1,6 @@
 package org.example.parkautoback.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.List;
 @Table(name = "assurance")
 public class Assurance {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String ida;
     private String libelle;
 
