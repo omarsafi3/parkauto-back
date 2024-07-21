@@ -31,6 +31,7 @@ public class CartesService {
     public Optional<Carte> updateCarte(String id, Carte updatedCarte) {
         return carteRepository.findById(id)
                 .map(carte -> {
+                    carte.setNum_carte(updatedCarte.getNum_carte());
                     carte.setNbr_litres(updatedCarte.getNbr_litres());
                     return carteRepository.save(carte);
                 });

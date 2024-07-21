@@ -1,14 +1,14 @@
 package org.example.parkautoback.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "carte")
 public class Carte {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
     private String num_carte;
     private String nbr_litres;
 
@@ -34,6 +34,14 @@ public class Carte {
 
     public void setNbr_litres(String nbr_litres) {
         this.nbr_litres = nbr_litres;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 
