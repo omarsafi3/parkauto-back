@@ -1,8 +1,6 @@
 package org.example.parkautoback.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -11,6 +9,7 @@ import java.time.LocalDate;
 @Table(name = "contrat")
 public class Contrat {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String idc;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date_deb;

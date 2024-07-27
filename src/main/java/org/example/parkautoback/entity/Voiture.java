@@ -1,9 +1,13 @@
 package org.example.parkautoback.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "voiture")
@@ -13,7 +17,8 @@ public class Voiture {
     private String type;
     private String fonction;
     private String age;
-    private String mise_en_route;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate mise_en_route;
     private String puissance;
     private String carburant;
     private String prix;
@@ -22,7 +27,7 @@ public class Voiture {
     public Voiture() {
     }
 
-    public Voiture(String immat, String type, String fonction, String age, String mise_en_route, String puissance, String carburant, String prix, String gps) {
+    public Voiture(String immat, String type, String fonction, String age, LocalDate mise_en_route, String puissance, String carburant, String prix, String gps) {
         this.immat = immat;
         this.type = type;
         this.fonction = fonction;
@@ -66,11 +71,11 @@ public class Voiture {
         this.age = age;
     }
 
-    public String getMise_en_route() {
+    public LocalDate getMise_en_route() {
         return mise_en_route;
     }
 
-    public void setMise_en_route(String mise_en_route) {
+    public void setMise_en_route(LocalDate mise_en_route) {
         this.mise_en_route = mise_en_route;
     }
 

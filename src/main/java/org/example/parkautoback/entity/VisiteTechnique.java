@@ -1,9 +1,7 @@
 package org.example.parkautoback.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
@@ -13,22 +11,25 @@ import java.time.LocalDate;
 @Table(name = "visite_technique")
 public class VisiteTechnique {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String idvt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date_deb;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date_fin;
     private String cout;
+    private String status;
     private String immat;
 
     public VisiteTechnique() {
     }
 
-    public VisiteTechnique(String idvt, LocalDate date_deb, LocalDate date_fin, String cout, String immat) {
+    public VisiteTechnique(String idvt, LocalDate date_deb, LocalDate date_fin, String cout,String status, String immat) {
         this.idvt = idvt;
         this.date_deb = date_deb;
         this.date_fin = date_fin;
         this.cout = cout;
+        this.status = status;
         this.immat = immat;
     }
 
@@ -62,6 +63,14 @@ public class VisiteTechnique {
 
     public void setCout(String cout) {
         this.cout = cout;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getImmat() {

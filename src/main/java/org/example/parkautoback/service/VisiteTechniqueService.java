@@ -35,6 +35,7 @@ public class VisiteTechniqueService {
                     VisiteTechnique.setDate_deb(visiteTechnique.getDate_deb());
                     VisiteTechnique.setDate_fin(visiteTechnique.getDate_fin());
                     VisiteTechnique.setCout(visiteTechnique.getCout());
+                    VisiteTechnique.setStatus(visiteTechnique.getStatus());
                     VisiteTechnique.setImmat(visiteTechnique.getImmat());
                     return visiteTechniqueRepository.save(VisiteTechnique);
                 });
