@@ -1,9 +1,7 @@
 package org.example.parkautoback.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.tools.javac.Main;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,6 +11,7 @@ import java.time.LocalDate;
 
 public class Maintenance {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String idm;
     private String typem;
     private String description;

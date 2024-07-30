@@ -40,6 +40,7 @@ public class BeneficiairesService {
                     beneficiaire.setNum_carte(updatedBeneficiaire.getNum_carte());
                     beneficiaire.setCode(updatedBeneficiaire.getCode());
                     beneficiaire.setPort_id(updatedBeneficiaire.getPort_id());
+                    beneficiaire.setImmat(updatedBeneficiaire.getImmat());
                     return beneficiaireRepository.save(beneficiaire);
                 });
     }

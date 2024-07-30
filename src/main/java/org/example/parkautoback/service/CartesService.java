@@ -1,10 +1,13 @@
 package org.example.parkautoback.service;
 
 import org.example.parkautoback.entity.Carte;
+import org.example.parkautoback.entity.Transactions;
 import org.example.parkautoback.repository.CarteRepository;
+import org.example.parkautoback.repository.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +30,8 @@ public class CartesService {
     public Carte saveCarte(Carte carte) {
         return carteRepository.save(carte);
     }
+
+
 
     public Optional<Carte> updateCarte(String id, Carte updatedCarte) {
         return carteRepository.findById(id)

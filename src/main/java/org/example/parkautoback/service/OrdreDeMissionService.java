@@ -36,9 +36,11 @@ public class OrdreDeMissionService {
                     OrdreDeMission.setDate_arr(ordreDeMission.getDate_arr());
                     OrdreDeMission.setAccompagnant(ordreDeMission.getAccompagnant());
                     OrdreDeMission.setObjectif(ordreDeMission.getObjectif());
-                    OrdreDeMission.setObjectif(ordreDeMission.getObjectif());
                     OrdreDeMission.setTrajet(ordreDeMission.getTrajet());
                     OrdreDeMission.setEmploye_id(ordreDeMission.getEmploye_id());
+                    OrdreDeMission.setCourrier(ordreDeMission.getCourrier());
+                    OrdreDeMission.setStatus(ordreDeMission.getStatus());
+
                     return ordreDeMissionRepository.save(OrdreDeMission);
                 });
     }

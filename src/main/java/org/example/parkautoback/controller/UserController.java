@@ -39,18 +39,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginCredentials loginCredentials) {
-        // Verify username and password
         User user = userService.getUserByUsernameAndPassword(loginCredentials.getUsername(), loginCredentials.getPassword());
         if (user != null) {
-            // Generate authentication token (e.g., JWT)
             String token = JwtTokenGenerator.generateToken(user);
-
-            // Construct response map including token and role
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
-            response.put("role", user.getRole()); // Assuming user has a getRole() method
-
-            // Return token and role in JSON format
+            response.put("role", user.getRole());
             return ResponseEntity.ok().body(response);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Or another appropriate response

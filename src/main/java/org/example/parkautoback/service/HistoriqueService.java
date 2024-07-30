@@ -31,7 +31,6 @@ public class HistoriqueService {
     public Optional<Historique> updateHistorique(String idh, Historique historique) {
         return historiqueRepository.findById(idh)
                 .map(Historique -> {
-                    Historique.setDateh(historique.getDateh());
                     Historique.setIdb(historique.getIdb());
                     Historique.setImmat(historique.getImmat());
                     return historiqueRepository.save(Historique);

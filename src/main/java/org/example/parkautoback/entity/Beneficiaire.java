@@ -23,13 +23,14 @@ public class Beneficiaire {
     private String num_carte;
     private String code;
     private String port_id;
+    private String immat;
 
 
 
     public Beneficiaire() {
     }
 
-    public Beneficiaire(String idb, String nom, String prenom, LocalDate date_deb, LocalDate date_fin, String num_carte, String code, String port_id) {
+    public Beneficiaire(String idb, String nom, String prenom, LocalDate date_deb, LocalDate date_fin, String num_carte, String code, String port_id, String immat) {
         this.idb = idb;
         this.nom = nom;
         this.prenom = prenom;
@@ -38,6 +39,7 @@ public class Beneficiaire {
         this.num_carte = num_carte;
         this.code = code;
         this.port_id = port_id;
+        this.immat = immat;
     }
 
     public String getIdb() {
@@ -102,5 +104,13 @@ public class Beneficiaire {
 
     public void setPort_id(String port_id) {
         this.port_id = port_id;
+    }
+
+    public String getImmat() {
+        return immat;
+    }
+
+    public void setImmat(String immat) {
+        this.immat = immat;
     }
 }

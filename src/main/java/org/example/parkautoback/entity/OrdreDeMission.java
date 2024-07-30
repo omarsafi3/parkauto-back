@@ -1,9 +1,7 @@
 package org.example.parkautoback.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -12,6 +10,7 @@ import java.time.LocalDate;
 @Table(name = "ordre_de_mission")
 public class OrdreDeMission {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String employe_id;
     private String objectif;
@@ -22,11 +21,12 @@ public class OrdreDeMission {
     private String trajet;
     private String courrier;
     private String accompagnant;
+    private String status;
 
     public OrdreDeMission() {
     }
 
-    public OrdreDeMission(String id, String employe_id, String objectif, LocalDate date_dep, LocalDate date_arr, String trajet, String courrier, String accompagnant) {
+    public OrdreDeMission(String id, String employe_id, String objectif, LocalDate date_dep, LocalDate date_arr, String trajet, String courrier, String accompagnant, String status) {
         this.id = id;
         this.employe_id = employe_id;
         this.objectif = objectif;
@@ -35,6 +35,7 @@ public class OrdreDeMission {
         this.trajet = trajet;
         this.courrier = courrier;
         this.accompagnant = accompagnant;
+        this.status = status;
     }
 
     public String getId() {
@@ -101,6 +102,13 @@ public class OrdreDeMission {
         this.accompagnant = accompagnant;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
 
 

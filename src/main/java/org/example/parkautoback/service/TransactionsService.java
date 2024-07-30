@@ -25,6 +25,8 @@ public class TransactionsService {
         return transactionsRepository.findById(idt);
     }
 
+
+
     public Transactions addTransactions(Transactions transactions) {
         return transactionsRepository.save(transactions);
     }
@@ -37,11 +39,12 @@ public class TransactionsService {
                     Transactions.setDatet(transactions.getDatet());
                     Transactions.setStation(transactions.getStation());
                     Transactions.setIdc(transactions.getIdc());
-                    Transactions.setNum_carte(transactions.getNum_carte());
                     return transactionsRepository.save(Transactions);
                 });
     }
     public void deleteTransactions(String idt) {
         transactionsRepository.deleteById(idt);
     }
+    
+
 }

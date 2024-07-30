@@ -14,8 +14,6 @@ import java.time.LocalDate;
 public class Historique {
     @Id
     private String idh;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate dateh;
     private String idb;
     private String immat;
 
@@ -24,7 +22,6 @@ public class Historique {
 
     public Historique(String idh, LocalDate dateh, String idb, String immat) {
         this.idh = idh;
-        this.dateh = dateh;
         this.idb = idb;
         this.immat = immat;
     }
@@ -37,13 +34,6 @@ public class Historique {
         this.idh = idh;
     }
 
-    public LocalDate getDateh() {
-        return dateh;
-    }
-
-    public void setDateh(LocalDate dateh) {
-        this.dateh = dateh;
-    }
 
     public String getIdb() {
         return idb;

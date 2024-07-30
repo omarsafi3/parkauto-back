@@ -1,9 +1,7 @@
 package org.example.parkautoback.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
@@ -12,6 +10,7 @@ import java.time.LocalDate;
 @Table(name = "transactions")
 public class Transactions {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String idt;
     private String kilometrage;
     private String montant;
@@ -19,7 +18,7 @@ public class Transactions {
     private LocalDate datet;
     private String station;
     private String idc;
-    private String num_carte;
+    private String card_id;
 
     public Transactions() {
     }
@@ -31,7 +30,7 @@ public class Transactions {
         this.datet = datet;
         this.station = station;
         this.idc = idc;
-        this.num_carte = num_carte;
+        this.card_id = num_carte;
     }
 
     public String getIdt() {
@@ -74,12 +73,12 @@ public class Transactions {
         this.idc = idc;
     }
 
-    public String getNum_carte() {
-        return num_carte;
+    public String getCard_id() {
+        return card_id;
     }
 
-    public void setNum_carte(String num_carte) {
-        this.num_carte = num_carte;
+    public void setCard_id(String card_id) {
+        this.card_id = card_id;
     }
 
     public String getMontant() {

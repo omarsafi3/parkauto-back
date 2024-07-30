@@ -3,6 +3,8 @@ package org.example.parkautoback.entity;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Entity
 @Table(name = "carte")
 public class Carte {
@@ -11,6 +13,9 @@ public class Carte {
     private String id;
     private String num_carte;
     private String nbr_litres;
+
+
+
 
     public Carte() {
     }
